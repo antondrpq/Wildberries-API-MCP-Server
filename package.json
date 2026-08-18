@@ -1,0 +1,43 @@
+{
+  "name": "wb-api-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Wildberries API",
+  "main": "wb-api-mcp-server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node wb-api-mcp-server.js",
+    "dev": "nodemon wb-api-mcp-server.js",
+    "test": "jest --runInBand",
+    "lint": "eslint . --ext .js,.mjs",
+    "deploy:cloudflare": "wrangler deploy"
+  },
+  "keywords": [
+    "wildberries",
+    "api",
+    "mcp",
+    "server"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "wrangler": "^4.47.0",
+    "supertest": "^7.1.3"
+  }
+}

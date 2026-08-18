@@ -1,0 +1,15 @@
+{
+  // Конфигурация Cloudflare Wrangler для запуска этого Express-сервера
+  // как Cloudflare Worker через официальный Node.js HTTP-адаптер
+  // (см. worker-entry.mjs). Docker/обычный Node-запуск (npm start) эту
+  // конфигурацию не использует и не требует.
+  "name": "wildberries-api-mcp-server",
+  "main": "worker-entry.mjs",
+  "compatibility_date": "2026-08-17",
+  "compatibility_flags": ["nodejs_compat"],
+  // Cloudflare сам подставит PORT/переменные окружения при необходимости.
+  // RATE_LIMIT_MAX можно задать здесь или в Dashboard → Settings → Variables.
+  "vars": {
+    "NODE_ENV": "production"
+  }
+}
