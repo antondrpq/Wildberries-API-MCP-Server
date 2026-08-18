@@ -1,0 +1,26 @@
+diff --git a/node_modules/iconv-lite/lib/index.js b/node_modules/iconv-lite/lib/index.js
+index 5391919..64a4d30 100644
+--- a/node_modules/iconv-lite/lib/index.js
++++ b/node_modules/iconv-lite/lib/index.js
+@@ -141,7 +141,20 @@ if (nodeVer) {
+     // Load streaming support in Node v0.10+
+     var nodeVerArr = nodeVer.split(".").map(Number);
+     if (nodeVerArr[0] > 0 || nodeVerArr[1] >= 10) {
+-        require("./streams")(iconv);
++        // Patched for Cloudflare Workers compatibility: the optional
++        // Transform-stream API (iconv.encodeStream/decodeStream) needs
++        // require("stream").Transform, which currently breaks under
++        // Workers' Node.js compatibility polyfill. This app (and
++        // raw-body/body-parser, iconv-lite's only consumer here) never
++        // uses the streaming API - only getDecoder()/getEncoder() - so
++        // it's safe to skip it entirely if it fails to load, instead of
++        // crashing the whole process. See patches/iconv-lite+0.4.24.patch.
++        try {
++            require("./streams")(iconv);
++        } catch (e) {
++            // Streaming API unavailable in this environment - iconv-lite's
++            // core encode/decode/getDecoder/getEncoder API still works fine.
++        }
+     }
+ 
+     // Load Node primitive extensions.
