@@ -139,7 +139,13 @@ describe('Search Report API proxy', () => {
         end: '2026-08-18'
       },
       nmIds: [178773045],
-      topOrderBy: 'openCard'
+      topOrderBy: 'openCard',
+      orderBy: {
+        field: 'openCard',
+        mode: 'desc'
+      },
+      limit: 20,
+      offset: 0
     };
 
     axios.mockResolvedValue({
@@ -169,12 +175,12 @@ describe('Search Report API proxy', () => {
 
   test('product/orders proxies POST to WB v2 endpoint', async () => {
     const body = {
-      currentPeriod: {
+      period: {
         start: '2026-08-12',
         end: '2026-08-18'
       },
-      nmIds: [178773045],
-      topOrderBy: 'openCard'
+      nmId: 178773045,
+      searchTexts: ['масло моторное']
     };
 
     axios.mockResolvedValue({
