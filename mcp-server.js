@@ -113,7 +113,7 @@ function jsonRpcError(id, code, message, data) {
 
 function auth(req, res, next) {
   if (!MCP_API_KEY) return next();
-  const bearer = req.headers.authorization && req.headers.authorization.replace(/^Bearer\\s+/i, '');
+  const bearer = req.headers.authorization && req.headers.authorization.replace(/^Bearer\s+/i, '');
   const supplied = req.headers['x-mcp-api-key'] || bearer;
   if (supplied !== MCP_API_KEY) return res.status(401).json({ error: 'Unauthorized' });
   next();
@@ -150,7 +150,7 @@ async function callWb(url, method, data) {
 
 function requireDateRange(args) {
   if (!Array.isArray(args.nmIds) || args.nmIds.length === 0) throw new Error('nmIds must be a non-empty array');
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(args.start) || !/^\\d{4}-\\d{2}-\\d{2}$/.test(args.end)) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(args.start) || !/^\d{4}-\d{2}-\d{2}$/.test(args.end)) {
     throw new Error('start and end must use YYYY-MM-DD format');
   }
 }
