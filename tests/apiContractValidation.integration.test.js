@@ -4,7 +4,7 @@ jest.mock('axios', () => jest.fn());
 
 const request = require('supertest');
 const axios = require('axios');
-const app = require('../server-entry');
+const app = require('../wb-api-mcp-server');
 
 describe('WB API contract validation integration', () => {
   beforeEach(() => {
