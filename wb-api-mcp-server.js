@@ -10,6 +10,7 @@ const rateLimit = require('express-rate-limit');
 const multer = require('multer');
 const { parseWorkbookBuffer } = require('./lib/evirmaKeywordsParser');
 const { parseWorkbookBuffer: parseDailyStatsBuffer } = require('./lib/evirmaDailyStatsParser');
+const apiContractMiddleware = require('./lib/apiContractMiddleware');
 
 // Main server configuration
 const app = express();
@@ -81,6 +82,7 @@ const authMiddleware = (req, res, next) => {
 
 // Apply middleware
 app.use(authMiddleware);
+app.use(apiContractMiddleware);
 
 // Helper function to make API calls to Wildberries
 const callWbApi = async (url, method, data, headers) => {
@@ -646,7 +648,7 @@ const evirmaUpload = multer({
   }
 });
 
-// Import the EVIRMA PRO "РЎС‚Р°С‚РёСЃС‚РёРєР° Р Рљ РїРѕ РєР»СЋС‡РµРІС‹Рј С„СЂР°Р·Р°Рј" export
+// Import the EVIRMA PRO "РЎС‚Р°С‚РёСЃС‚РёРєР° Р Рљ РїРѕ РєР»СЋС‡РµРІС‹Рј С„СЂР°Р°Р·Р°Рј" export
 // (feature id in the exported filename: cmp-advert-keywords-stats).
 // Expects multipart/form-data with the file under the field name "file".
 app.post('/api/evirma/import/keywords-report', (req, res, next) => {
