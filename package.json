@@ -1,6 +1,6 @@
 {
   "name": "wb-api-mcp-server",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Wildberries API and MCP server",
   "main": "wb-api-mcp-server.js",
   "engines": {
