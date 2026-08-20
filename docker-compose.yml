@@ -1,16 +1,16 @@
-version: '3.8'
-
 services:
   wb-api-mcp:
     build: .
+    image: ghcr.io/antondrpq/wildberries-api-mcp-server:latest
     container_name: wb-api-mcp
     ports:
       - "${PORT:-3000}:3000"
     env_file:
       - .env
     environment:
-      - PORT=3000
-      - NODE_ENV=production
+      PORT: 3000
+      NODE_ENV: production
+    command: ["node", "start.js"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health',res=>process.exit(res.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
