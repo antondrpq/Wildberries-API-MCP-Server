@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/antondrpq/Wildberries-API-MCP-Server/actions/workflows/ci.yml/badge.svg)](https://github.com/antondrpq/Wildberries-API-MCP-Server/actions/workflows/ci.yml)
 [![Docker publish](https://github.com/antondrpq/Wildberries-API-MCP-Server/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/antondrpq/Wildberries-API-MCP-Server/actions/workflows/docker-publish.yml)
+[![M8ven Verified](https://m8ven.ai/badge/mcp/antondrpq-wildberries-api-mcp-server-1ccycs?variant=verified)](https://m8ven.ai/mcp/antondrpq-wildberries-api-mcp-server-1ccycs)
 
 > Репозиторий: https://github.com/antondrpq/Wildberries-API-MCP-Server
 
