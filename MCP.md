@@ -24,6 +24,17 @@ WB_REQUEST_TIMEOUT_MS=60000
 
 `WB_API_KEY` stays server-side and is never exposed as a tool argument. If `MCP_API_KEY` is set, MCP clients must send it as `X-MCP-API-Key` or `Authorization: Bearer <key>`. Leave it empty only when the MCP endpoint is intentionally exposed behind another trusted network boundary.
 
+## Connecting from Claude Code
+
+Register the server with the Claude Code CLI using the `http` transport:
+
+```bash
+claude mcp add --transport http wb-mcp http://localhost:3000/mcp \
+  --header "Authorization: Bearer YOUR_MCP_API_KEY"
+```
+
+`--header` takes a full `Name: Value` pair, not a bare token — passing just the key (e.g. `--header "YOUR_MCP_API_KEY"`) is silently sent as a malformed header and the server rejects the request with `401 Unauthorized`. `X-MCP-API-Key: YOUR_MCP_API_KEY` works the same way, as an alternative to the `Authorization: Bearer` form. If `MCP_API_KEY` is unset on the server, omit `--header` entirely.
+
 ## MCP lifecycle
 
 A normal MCP client should use this sequence:
