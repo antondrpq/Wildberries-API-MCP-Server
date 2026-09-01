@@ -23,15 +23,56 @@ describe('MCP Wildberries tool contracts', () => {
     axios.mockResolvedValue({ status: 200, data: { data: { ok: true } }, headers: {} });
   });
 
-  test('all five tools are exposed as read-only tools', () => {
-    expect(tools.map(tool => tool.name)).toEqual([
+  // Tool names that call a write/modify Wildberries endpoint. Keep in sync
+  // with the WRITE rows in MCP.md's tool table when adding/removing tools.
+  const WRITE_TOOL_NAMES = [
+    'wb_feedback_answer',
+    'wb_question_view',
+    'wb_question_answer',
+    'wb_chat_send_message',
+    'wb_order_cancel'
+  ];
+
+  // Only wb_order_cancel is irreversible/customer-facing in a way that
+  // warrants destructiveHint: true; the other WRITE tools are idempotent-ish
+  // edits (post/edit a reply, mark viewed) and stay destructiveHint: false.
+  const DESTRUCTIVE_TOOL_NAMES = ['wb_order_cancel'];
+
+  test('exposes all 32 documented tools, none duplicated', () => {
+    const names = tools.map(tool => tool.name);
+    expect(names).toHaveLength(32);
+    expect(new Set(names).size).toBe(32);
+  });
+
+  test('read-only tools are correctly annotated readOnlyHint: true, destructiveHint: false', () => {
+    const readOnlyTools = tools.filter(tool => !WRITE_TOOL_NAMES.includes(tool.name));
+    expect(readOnlyTools).toHaveLength(32 - WRITE_TOOL_NAMES.length);
+    for (const tool of readOnlyTools) {
+      expect(tool.annotations.readOnlyHint).toBe(true);
+      expect(tool.annotations.destructiveHint).toBe(false);
+    }
+  });
+
+  test('write tools are correctly annotated readOnlyHint: false', () => {
+    for (const name of WRITE_TOOL_NAMES) {
+      const tool = tools.find(candidate => candidate.name === name);
+      expect(tool).toBeDefined();
+      expect(tool.annotations.readOnlyHint).toBe(false);
+      expect(tool.annotations.destructiveHint).toBe(DESTRUCTIVE_TOOL_NAMES.includes(name));
+    }
+  });
+
+  test('the five original analytics tools are still present and unchanged in shape', () => {
+    const originalFive = tools.filter(tool => [
       'wb_sales_funnel',
       'wb_sales_funnel_history',
       'wb_search_texts',
       'wb_stocks',
       'wb_ad_campaign_stats'
-    ]);
-    for (const tool of tools) {
+    ].includes(tool.name));
+
+    expect(originalFive).toHaveLength(5);
+    for (const tool of originalFive) {
       expect(tool.annotations.readOnlyHint).toBe(true);
       expect(tool.annotations.destructiveHint).toBe(false);
     }
